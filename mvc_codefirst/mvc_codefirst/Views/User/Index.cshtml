@@ -1,0 +1,21 @@
+﻿@model mvc_codefirst.Models.User
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>@ViewBag.Title.</h2>
+<div class="row">
+    <div class="col-md-8">
+        Welcome, @Session["username"]
+        @using (Html.BeginForm("Logout", "User", FormMethod.Post))
+        {
+            <input type="submit" value="Log out"/>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
