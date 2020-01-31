@@ -1,0 +1,62 @@
+﻿@model mvc_codefirst.Models.Role
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Roles/Layout/Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Dashboard</h4>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- table -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title">Edit Role</h3>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @placeholder = "Role Name" })
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Update" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}
+@section Scripts{
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/Scripts/adminlite/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Content/adminlite/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="~/Scripts/adminlite/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="~/Scripts/adminlite/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="~/Scripts/adminlite/js/waves.js"></script>
+    <!--Counter js -->
+    <script src="~/Scripts/adminlite/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+    <script src="~/Scripts/adminlite/bower_components/counterup/jquery.counterup.min.js"></script>
+    <!-- chartist chart -->
+    <script src="~/Scripts/adminlite/bower_components/chartist-js/dist/chartist.min.js"></script>
+    <script src="~/Scripts/adminlite/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+    <!-- Sparkline chart JavaScript -->
+    <script src="~/Scripts/adminlite/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Scripts/adminlite/js/custom.min.js"></script>
+    <script src="~/Scripts/adminlite/js/dashboard1.js"></script>
+    <script src="~/Scripts/adminlite/bower_components/toast-master/js/jquery.toast.js"></script>
+}

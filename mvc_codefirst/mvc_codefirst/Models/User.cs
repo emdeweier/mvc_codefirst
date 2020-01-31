@@ -7,7 +7,7 @@ using System.Web;
 
 namespace mvc_codefirst.Models
 {
-    [Table("TB_M_Login")]
+    [Table("TB_M_Users")]
     public class User
     {
         [Key]
@@ -15,6 +15,6 @@ namespace mvc_codefirst.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public Role Role { get; set; }
+        public ICollection<Role> Roles { get; set; }
     }
 }

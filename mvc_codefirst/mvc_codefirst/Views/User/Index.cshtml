@@ -1,21 +1,150 @@
-﻿@model mvc_codefirst.Models.User
+﻿@model IEnumerable<mvc_codefirst.Models.User>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/User/Layout/Layout.cshtml";
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        Welcome, @Session["username"]
-        @using (Html.BeginForm("Logout", "User", FormMethod.Post))
-        {
-            <input type="submit" value="Log out"/>
-        }
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Dashboard</h4>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- table -->
+    <!-- ============================================================== -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12">
+            <div class="white-box">
+                <h3 class="box-title">Users</h3>
+                <h3 class="box-title"><a href="/User/Create" class="btn btn-info"><i class="fa fa-plus"></i> Add User</a></h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>USERNAME</th>
+                                <th>NAME</th>
+                                <th>EMAIL</th>
+                                <th colspan="2">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Username)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        <button data-toggle="modal" data-target="#editModal" class="btn btn-warning btn-sm" title="Edit">
+                                            <a href="#" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="left"><i class="fa fa-pencil"></i></a>
+                                        </button>
+                                        <button data-toggle="tooltip" data-placement="top" class="btn btn-info btn-sm" title="Detail">
+                                            <a href="@Url.Action("Detail","User", new { @username = item.Username })" class="btn btn-info btn-xs"><i class="fa fa-info-circle"></i></a>
+                                        </button>
+                                        <button data-toggle="tooltip" data-placement="right" class="btn btn-danger btn-sm" title="Delete">
+                                            <a href="@Url.Action("Delete","User", new { @username = item.Username })" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- Modal Edit User-->
+                                <div class="modal fade" id="editModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title">Update User Data</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                @using (Html.BeginForm())
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    <input type="hidden" name="id_mhs">
+                                                    @Html.HiddenFor(modelItem => item.Username, new { @class = "form-control" })
+                                                    <div class="form-group">
+                                                        <label>Name</label>
+                                                        @Html.TextBoxFor(modelItem => item.Name, new { @class = "form-control" })
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Email</label>
+                                                        @Html.TextBoxFor(modelItem => item.Email, new { @class = "form-control" })
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Password</label>
+                                                        @Html.TextBoxFor(modelItem => item.Password, new { @class = "form-control" })
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success" id="btn-update">Update</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@section Scripts{
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/Scripts/adminlite/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/Content/adminlite/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="~/Scripts/adminlite/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="~/Scripts/adminlite/js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="~/Scripts/adminlite/js/waves.js"></script>
+    <!--Counter js -->
+    <script src="~/Scripts/adminlite/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+    <script src="~/Scripts/adminlite/bower_components/counterup/jquery.counterup.min.js"></script>
+    <!-- chartist chart -->
+    <script src="~/Scripts/adminlite/bower_components/chartist-js/dist/chartist.min.js"></script>
+    <script src="~/Scripts/adminlite/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+    <!-- Sparkline chart JavaScript -->
+    <script src="~/Scripts/adminlite/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="~/Scripts/adminlite/js/custom.min.js"></script>
+    <script src="~/Scripts/adminlite/js/dashboard1.js"></script>
+    <script src="~/Scripts/adminlite/bower_components/toast-master/js/jquery.toast.js"></script>
+    <script type="text/javascript">
+        // Handle submitting of new information for Person.
+        // This will attempt to save new info
+        // If save was successful, it will close the Modal and reload page to see updated info
+        // Otherwise it will only reload contents of the Modal
+        $(document).on('click', '#btn-update', function () {
+            var self = $(this);
+            $.ajax({
+                url: '/User/Edit/',
+                type: 'POST',
+                data: self.closest('form').serialize(),
+                success: function (data) {
+                    if (data.success == true) {
+                        $('#editModal').modal('hide');
+                        location.reload(false)
+                    } else {
+                        $('#editModal').html(data);
+                    }
+                }
+            });
+        });
+    </script>
 }
 

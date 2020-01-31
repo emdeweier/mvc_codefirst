@@ -1,9 +1,11 @@
 ﻿using mvc_codefirst.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -27,15 +29,18 @@ namespace mvc_codefirst.Controllers
         
         // POST: User/Create
         [HttpPost]
-        public ActionResult Login(User user)
+        public async Task<ActionResult> Login(User user)
         {
-            var username = userContext.Users.FirstOrDefault(a => a.Username == user.Username);
+            var username = await userContext.Users.FirstOrDefaultAsync(a => a.Username == user.Username);
             if (username != null)
             {
-                if (user.Password == username.Password)
+                if (user.Password == username.Password || BCrypt.Net.BCrypt.Verify(user.Password, username.Password))
                 {
                     Session["user"] = user.Username;
                     Session.Add("username", username.Username);
+                    //var role = userContext.Roles.Include(r => r.Name);
+                    //Session["rl"] = role;
+                    //Session.Add("role", role);
                     return RedirectToAction("Index", "User");
                 }
                 else
@@ -50,12 +55,14 @@ namespace mvc_codefirst.Controllers
         }
 
         // GET: User
-        public ActionResult Index(User user)
+        public async Task<ActionResult> Index(User user)
         {
             if (Session["username"] != null)
             {
+                var list = await userContext.Users.ToListAsync();
                 Session["user"] = user.Username;
-                return View();
+                //Session["rl"] = user.Role.Name;
+                return View(list);
             }
             else
             {
@@ -71,31 +78,73 @@ namespace mvc_codefirst.Controllers
 
         // POST: User/Create
         [HttpPost]
-        public ActionResult Register(User user)
+        public async Task<ActionResult> Register(User user)
         {
             try
             {
                 // TODO: Add insert logic here
-                var role = userContext.Roles.FirstOrDefault(b => b.Id == 2);
-                user.Role = role;
+                var role = await userContext.Roles.FirstOrDefaultAsync(b => b.Id == 2);
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password, BCrypt.Net.BCrypt.GenerateSalt(5));
                 userContext.Users.Add(user);
-                userContext.SaveChanges();
-                NetworkCredential n = new NetworkCredential("itcuad@gmail.com", "itcuad2018");
-                MailMessage mm = new MailMessage("itcuad@gmail.com", user.Email);
-                mm.Subject = "[Password] " + DateTime.Now.ToString("ddMMyyyyhhmmss");
-                mm.Body = "Hi " + user.Username + "\nThis Is Your New Password : " + user.Password;
+                var result = await userContext.SaveChangesAsync();
+                if(result > 0)
+                {
+                    NetworkCredential n = new NetworkCredential("itcuad@gmail.com", "itcuad2018");
+                    MailMessage mm = new MailMessage("itcuad@gmail.com", user.Email);
+                    mm.Subject = "[Password] " + DateTime.Now.ToString("ddMMyyyyhhmmss");
+                    mm.Body = "Hi " + user.Username + " Thank You for Registering on Our Application. \nThis Is Your New Password : " + user.Password;
 
-                SmtpClient smtp = new SmtpClient();
-                smtp.Host = "smtp.gmail.com";
-                smtp.Port = 587;
-                smtp.EnableSsl = true;
+                    SmtpClient smtp = new SmtpClient();
+                    smtp.Host = "smtp.gmail.com";
+                    smtp.Port = 587;
+                    smtp.EnableSsl = true;
 
-                smtp.UseDefaultCredentials = false;
-                smtp.Credentials = n;
-                smtp.Send(mm);
-                ViewBag.Message = "Password Has Been Sent.Check your email to login";
-                return RedirectToAction("Login");
+                    smtp.UseDefaultCredentials = false;
+                    smtp.Credentials = n;
+                    smtp.Send(mm);
+                    ViewBag.Message = "Password Has Been Sent.Check your email to login";
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: Roles/Edit/5
+        public async Task<ActionResult> Detail(string username)
+        {
+            var profile = await userContext.Users.FindAsync(username);
+            return View(profile);
+        }
+
+        // GET: Roles/Edit/5
+        public async Task<ActionResult> Edit(string username)
+        {
+            var edit = await userContext.Users.FindAsync(username);
+            return View();
+        }
+
+        // POST: Roles/Edit/5
+        [HttpPost]
+        public async Task<ActionResult> Edit(string username, User user)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                var edit = await userContext.Users.FindAsync(username);
+                user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password, BCrypt.Net.BCrypt.GenerateSalt(5));
+                edit.Name = user.Name;
+                edit.Email = user.Email;
+                edit.Password = user.Password;
+                userContext.Entry(edit).State = System.Data.Entity.EntityState.Modified;
+                await userContext.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
             catch
             {

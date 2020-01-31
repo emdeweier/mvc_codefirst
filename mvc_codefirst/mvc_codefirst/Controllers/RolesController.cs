@@ -54,12 +54,15 @@ namespace mvc_codefirst.Controllers
 
         // POST: Roles/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Role role)
         {
             try
             {
                 // TODO: Add update logic here
-
+                var edit = myContext.Roles.Find(id);
+                edit.Name = role.Name;
+                myContext.Entry(edit).State = System.Data.Entity.EntityState.Modified;
+                myContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
@@ -68,20 +71,16 @@ namespace mvc_codefirst.Controllers
             }
         }
 
-        // GET: Roles/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
         // POST: Roles/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, Role role)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                var delete = myContext.Roles.Find(id);
+                myContext.Roles.Remove(delete);
+                myContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch

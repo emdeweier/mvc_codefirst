@@ -194,6 +194,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Base\BaseModel.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -220,6 +221,18 @@
     <Compile Include="Migrations\202001291513464_addEmailonUserModel.cs" />
     <Compile Include="Migrations\202001291513464_addEmailonUserModel.Designer.cs">
       <DependentUpon>202001291513464_addEmailonUserModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001310402142_rmvFKRoleonUserModel.cs" />
+    <Compile Include="Migrations\202001310402142_rmvFKRoleonUserModel.Designer.cs">
+      <DependentUpon>202001310402142_rmvFKRoleonUserModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001310414477_rnmLoginintoUserModel.cs" />
+    <Compile Include="Migrations\202001310414477_rnmLoginintoUserModel.Designer.cs">
+      <DependentUpon>202001310414477_rnmLoginintoUserModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001310659269_addUserRoles.cs" />
+    <Compile Include="Migrations\202001310659269_addUserRoles.Designer.cs">
+      <DependentUpon>202001310659269_addUserRoles.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -293,6 +306,19 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\Register.cshtml" />
     <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\Layout\Layout.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\User\Layout\Layout.cshtml" />
+    <Content Include="Views\User\Layout\Partial\_Header.cshtml" />
+    <Content Include="Views\User\Layout\Partial\_Navbar.cshtml" />
+    <Content Include="Views\User\Layout\Partial\_Sidebar.cshtml" />
+    <Content Include="Views\Roles\Edit.cshtml" />
+    <Content Include="Views\Roles\Layout\Layout.cshtml" />
+    <Content Include="Views\Roles\Layout\Partial\_Header.cshtml" />
+    <Content Include="Views\Roles\Layout\Partial\_Navbar.cshtml" />
+    <Content Include="Views\Roles\Layout\Partial\_Sidebar.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Views\User\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -327,6 +353,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001291513464_addEmailonUserModel.resx">
       <DependentUpon>202001291513464_addEmailonUserModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001310402142_rmvFKRoleonUserModel.resx">
+      <DependentUpon>202001310402142_rmvFKRoleonUserModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001310414477_rnmLoginintoUserModel.resx">
+      <DependentUpon>202001310414477_rnmLoginintoUserModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001310659269_addUserRoles.resx">
+      <DependentUpon>202001310659269_addUserRoles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

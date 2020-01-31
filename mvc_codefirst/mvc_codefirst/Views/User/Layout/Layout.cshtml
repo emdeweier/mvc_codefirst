@@ -1,0 +1,54 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content/adminlite/images/favicon.png">
+    <title>Index User</title>
+    @Html.Partial("~/Views/User/Layout/Partial/_Header.cshtml")
+</head>
+<body class="fix-header">
+    <!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Wrapper -->
+    <!-- ============================================================== -->
+    <div id="wrapper">
+        <!-- ============================================================== -->
+        @Html.Partial("~/Views/User/Layout/Partial/_Navbar.cshtml")
+
+        @Html.Partial("~/Views/User/Layout/Partial/_Sidebar.cshtml")
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <div id="page-wrapper">
+            @RenderBody();
+            <!-- /.container-fluid -->
+            <footer class="footer text-center"> 2020 &copy; Template by <a href="">warppixel.com</a> | Edited with <i class="fa fa-heart"></i> 
+            by bapaknyajono </footer>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    @RenderSection("Scripts", required: false);
+</body>
+</html>
+
